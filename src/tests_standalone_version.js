@@ -1,7 +1,7 @@
 /**
- * @author Alec Hill
- * 
- * tests for LiveValidation 1.3 (standalone version)
+ * Removes all whitespace from a given string.
+ * @param {string} value - The string to remove whitespace from.
+ * @returns {string} - The string without any whitespace.
  */
 
 // <![CDATA[
@@ -112,6 +112,13 @@ Event.unloadCache = function() {
 }
 
 // reused in custom and create so defined here
+/**
+ * Determines if a given value is a prime number or divisible by a specified number.
+ * @param {number|string} value - The value to check.
+ * @param {object} argsObj - An object containing the specified number to check for divisibility.
+ * @param {number} argsObj.specified - The number to check for divisibility.
+ * @returns {boolean} - Returns true if the value is a prime number or divisible by the specified number, false otherwise.
+ */
 function isPrimeOrDivisibleBySpecified(value, argsObj){
 	var v = parseInt(value);
 	if(!v) return false;
