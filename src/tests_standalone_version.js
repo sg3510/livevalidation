@@ -131,7 +131,7 @@ function isPrimeOrDivisibleBySpecified(value, argsObj){
 }
 
 
-// defines and runs all the tests ///////////////////////////
+// defines and runs all the tests
 function runTests(){
 	
 	
