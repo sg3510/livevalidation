@@ -2,19 +2,17 @@ name: 'OtterDoc Documentation'
 
 # **What it does**: Comments all files in the repo and opens a PR with those comments.
 # **Why we have it**: To keep your code docs up to date.
-# **Who does it impact**: Docs content.
+# **Who does it impact**: Anyone who wants easy to read docs.
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'coudron/**'
-      - 'main'
+      - '*'
   pull_request:
 
 permissions:
   contents: write
-  # Needed for the 'trilom/file-changes-action' action
   pull-requests: write
 
 # This allows a subsequently queued workflow run to interrupt previous runs
@@ -29,37 +27,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
+      # This saves the branch name under the id 'extract_branch' so it can be used in the pull request
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
-
-      - name: Install
-        run: npm ci
-
-      # Creates file "$/files.json", among others
-      - name: Gather files changed
-        uses: trilom/file-changes-action@1.2.4
-        with:
-          fileOutput: 'json'
-        id: changed_files
-
-      # For verification, show the files that were changed
-      - name: Show files changed
-        run: cat $HOME/files.json
 
       # Run the otterdoc checker
       - name: Run OtterDoc
         uses: Hedge-Finance/otterdoc-actions@main # TODO Change this. Testing only
         with:
           key: ${{ secrets.OTTERDOC_KEY }}
-          files: ${{ steps.changed_files.outputs.files }}
+          # files: ${{ steps.changed_files.outputs.files }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.1
@@ -71,22 +50,3 @@ jobs:
             labels: documentation, typescript
             branch: '${{ steps.extract_branch.outputs.branch }}-otterdoc'
             delete-branch: true
-
-      # - name: Link check (warnings, changed files)
-      #   run: |
-      #     ./script/rendered-content-link-checker.mjs \
-      #       --language en \
-      #       --max 100 \
-      #       --check-anchors \
-      #       --check-images \
-      #       --verbose \
-      #       --list $HOME/files.json
-
-      # - name: Link check (critical, all files)
-      #   run: |
-      #     ./script/rendered-content-link-checker.mjs \
-      #       --language en \
-      #       --exit \
-      #       --verbose \
-      #       --check-images \
-      #       --level critical
