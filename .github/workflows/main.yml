@@ -1,5 +1,0 @@
-name: OtterDoc
-uses: OtterDoc/otterdoc-actions@1.0.2
-with:
-# An API key for OtterDoc
-  key: ${{ secrets.OTTERDOC_KEY }}

@@ -1,7 +1,0 @@
-- name: OtterDoc
-  # You may pin to the exact commit or the version.
-  # uses: OtterDoc/otterdoc-actions@d99d06fb7e00312bd4990ff02d1c62490ebc9117
-  uses: OtterDoc/otterdoc-actions@1.0.2
-  with:
-    # An API key for OtterDoc
-    key: ${{ secrets.OTTERDOC_API_KEY }}
