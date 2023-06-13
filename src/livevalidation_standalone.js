@@ -451,6 +451,10 @@ LiveValidation.prototype = {
     removeMessageAndFieldClass: function(){
       this.removeMessage();
       this.removeFieldClass();
+    },
+
+    debugAdd: function(a,b){
+      return a+b;
     }
 
 } 
